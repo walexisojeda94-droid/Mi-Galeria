@@ -22,7 +22,7 @@
   }
 
   body {
-    background: var(--bg);
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('fondo.jpg') center/cover no-repeat;
     color: var(--text);
     font-family: 'Montserrat', sans-serif;
     font-weight: 300;
@@ -329,10 +329,113 @@
     #gallery { padding: 3rem 1rem 4rem; }
     .photo-grid { grid-template-columns: repeat(2, 1fr); }
   }
+  /* ── ANIMACIÓN DE APERTURA ── */
+#intro-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+#intro-screen.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#intro-screen.fadeout {
+  opacity: 0;
+}
+
+.intro-silhouette {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(12px) brightness(0.25) grayscale(1);
+  transform: scale(1.05);
+  transition: filter 2s ease, transform 2s ease;
+}
+
+#intro-screen.show .intro-silhouette {
+  filter: blur(6px) brightness(0.35) grayscale(1);
+  transform: scale(1);
+}
+  
+/* ── BLUR SENSIBLE ── */
+.photo-item .blur-cover {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(10,10,10,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: opacity 0.5s ease;
+  z-index: 2;
+}
+
+.photo-item .blur-cover.revealed {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.blur-icon {
+  width: 32px;
+  height: 32px;
+  stroke: var(--text);
+  fill: none;
+  stroke-width: 1;
+  opacity: 0.8;
+}
+
+.blur-text {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text);
+  opacity: 0.7;
+}
+
+/* Blur para el video */
+.video-blur-cover {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(10,10,10,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: opacity 0.5s ease;
+  z-index: 2;
+}
+
+.video-blur-cover.revealed {
+  opacity: 0;
+  pointer-events: none;
+}
+  
 </style>
 </head>
 <body>
 
+<!-- ANIMACIÓN DE APERTURA -->
+<div id="intro-screen">
+  <img class="intro-silhouette" src="silueta.jpg" alt="" />
+</div>
+  
 <!-- PANTALLA DE CONTRASEÑA -->
 <div id="lock-screen">
   <div class="lock-symbol">✦</div>
@@ -352,7 +455,7 @@
     <!-- Fotos Eroticas ♥ -->
     <h1 class="gallery-title">Fotos Eroticas ♥</h1>
     <!-- ✏️ REEMPLAZÁ EL PÁRRAFO -->
-    <p class="gallery-desc">Escribí acá tu mensaje o párrafo de presentación para Celina. Puede ser tan largo o corto como quieras.</p>
+    <p class="gallery-desc">"Esto lo hice para que veas como te deseo cada vez que pienso en vos. Espero que al verlas te provoque lo mismo que me provocás a mí."</p>
   </header>
 
   <!-- FOTOS -->
@@ -363,94 +466,148 @@
       <!-- ✏️ REEMPLAZÁ cada src con el link directo de Google Drive -->
       <!-- Para obtener el link directo: compartir foto → "cualquiera con el link" → reemplazá /file/d/ID/view por /uc?export=view&id=ID -->
 
-      <div class="photo-item" onclick="openLightbox(0)">
+      <div class="photo-item" onclick="handlePhoto(this, 0)">
        <img src="https://i.ibb.co/tPTz0zDY/IMG-20260614-203428484.jpg" alt="IMG-20260614-203428484" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(1)">
+      <div class="photo-item" onclick="handlePhoto(this, 1)">
        <img src="https://i.ibb.co/pBF8ryJ7/IMG-20260614-204459957-HDR.jpg" alt="IMG-20260614-204459957-HDR" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(2)">
+      <div class="photo-item" onclick="handlePhoto(this, 2)">
         <img src="https://i.ibb.co/cc8B3pGb/IMG-20260614-204421808.jpg" alt="IMG-20260614-204421808" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(3)">
+      <div class="photo-item" onclick="handlePhoto(this, 3)">
         <img src="https://i.ibb.co/20jPcMh2/IMG-20260614-204236233.jpg" alt="IMG-20260614-204236233" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(4)">
+      <div class="photo-item" onclick="handlePhoto(this, 4)">
         <img src="https://i.ibb.co/VcB4rj5M/IMG-20260614-204208433.jpg" alt="IMG-20260614-204208433" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(5)">
+      <div class="photo-item" onclick="handlePhoto(this, 5)">
         <img src="https://i.ibb.co/rRdmJgmT/IMG-20260614-204104150-2.jpg" alt="IMG-20260614-204104150-2" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(6)">
+      <div class="photo-item" onclick="handlePhoto(this, 6)">
         <img src="https://i.ibb.co/fzfPdRGw/IMG-20260614-203829586.jpg" alt="IMG-20260614-203829586" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-       <div class="photo-item" onclick="openLightbox(7)">
+       <div class="photo-item" onclick="handlePhoto(this, 7)">
         <img src="https://i.ibb.co/KcBSmnjg/IMG-20260614-203826139.jpg" alt="IMG-20260614-203826139" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(8)">
+      <div class="photo-item" onclick="handlePhoto(this, 8)">
         <img src="https://i.ibb.co/7dQNqXQr/IMG-20260614-203823144.jpg" alt="IMG-20260614-203823144" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(9)">
+      <div class="photo-item" onclick="handlePhoto(this, 9)">
         <img src="https://i.ibb.co/KcmKcvds/IMG-20260614-203646022.jpg" alt="IMG-20260614-203646022" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
       
-      <div class="photo-item" onclick="openLightbox(10)">
+      <div class="photo-item" onclick="handlePhoto(this, 10)">
         <img src="https://i.ibb.co/hxMSmYvN/IMG-20260614-203638217.jpg" alt="IMG-20260614-203638217" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(11)">
+      <div class="photo-item" onclick="handlePhoto(this, 11)">
         <img src="https://i.ibb.co/FbpfTnZy/IMG-20260614-203632658.jpg" alt="IMG-20260614-203632658" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(12)">
+      <div class="photo-item" onclick="handlePhoto(this, 12)">
         <img src="https://i.ibb.co/xSXV815g/IMG-20260614-203616997.jpg" alt="IMG-20260614-203616997" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(13)">
+      <div class="photo-item" onclick="handlePhoto(this, 13)">
         <img src="https://i.ibb.co/wNK66tNT/IMG-20260614-203611841.jpg" alt="IMG-20260614-203611841" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(14)">
+      <div class="photo-item" onclick="handlePhoto(this, 14)">
         <img src="https://i.ibb.co/gLj4YgJF/IMG-20260614-203600922.jpg" alt="IMG-20260614-203600922" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(15)">
+      <div class="photo-item" onclick="handlePhoto(this, 15)">
         <img src="https://i.ibb.co/ZvSQJJC/IMG-20260614-203542003.jpg" alt="IMG-20260614-203542003" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(16)">
+      <div class="photo-item" onclick="handlePhoto(this, 16)">
         <img src="https://i.ibb.co/vCKL8mn4/IMG-20260614-203555980.jpg" alt="IMG-20260614-203555980" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
-      <div class="photo-item" onclick="openLightbox(17)">
+      <div class="photo-item" onclick="handlePhoto(this, 17)">
         <img src="https://i.ibb.co/xqg6tDy6/IMG-20260614-203550804.jpg" alt="IMG-20260614-203550804" border="0" />
         <div class="photo-overlay"></div>
+        <div class="blur-cover">
+         <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+         <span class="blur-text">Contenido sensible</span>
       </div>
 
     </div>
@@ -464,12 +621,16 @@
             <source src="video.mp4" type="video/mp4">
             Tu navegador no soporta la reproducción de video.
         </video>
+      <div class="video-blur-cover" onclick="revealVideo(this)">
+        <svg class="blur-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        <span class="blur-text">Contenido sensible</span>
+      </div>
     </div>
-</section>
 
   <footer class="gallery-footer">
     <p class="footer-mark">✦ privado ✦</p>
-  </footer>
+    <p style="font-family:'Cormorant Garamond',serif; font-style:italic; color:var(--burgundy-light); font-size:1rem; letter-spacing:0.05em; margin-top:1rem;">Escribí acá tu frase</p>
+</footer>
 
 </div>
 
@@ -484,21 +645,27 @@
 <script>
   const PASSWORD = "140624";
 
-  function checkPassword() {
-    const val = document.getElementById('pwd-input').value;
-    const err = document.getElementById('pwd-error');
-    if (val === PASSWORD) {
-      document.getElementById('lock-screen').classList.add('hidden');
+function checkPassword() {
+  const val = document.getElementById('pwd-input').value;
+  const err = document.getElementById('pwd-error');
+  if (val === PASSWORD) {
+    document.getElementById('lock-screen').classList.add('hidden');
+    const intro = document.getElementById('intro-screen');
+    intro.classList.add('show');
+    setTimeout(() => {
+      intro.classList.add('fadeout');
       setTimeout(() => {
+        intro.style.display = 'none';
         document.getElementById('lock-screen').style.display = 'none';
         document.getElementById('gallery').classList.add('visible');
-      }, 600);
-    } else {
-      err.textContent = 'contraseña incorrecta';
-      document.getElementById('pwd-input').value = '';
-      setTimeout(() => { err.textContent = ''; }, 2000);
-    }
+      }, 1000);
+    }, 2500);
+  } else {
+    err.textContent = 'contraseña incorrecta';
+    document.getElementById('pwd-input').value = '';
+    setTimeout(() => { err.textContent = ''; }, 2000);
   }
+}
 
   document.getElementById('pwd-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') checkPassword();
@@ -509,7 +676,16 @@
   function getImages() {
     return Array.from(document.querySelectorAll('.photo-item img'));
   }
-
+  
+  function handlePhoto(el, index) {
+  const cover = el.querySelector('.blur-cover');
+  if (cover && !cover.classList.contains('revealed')) {
+    cover.classList.add('revealed');
+  } else {
+    openLightbox(index);
+  }
+}
+  
   function openLightbox(index) {
     currentIndex = index;
     const imgs = getImages();
