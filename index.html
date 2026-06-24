@@ -413,6 +413,67 @@
     #gallery { padding: 3rem 1rem 4rem; }
     .photo-grid { grid-template-columns: repeat(2, 1fr); }
   }
+
+/* ── BOTÓN HAY MÁS ── */
+.hay-mas-btn {
+  display: block;
+  margin: 3rem auto 2rem;
+  background: transparent;
+  border: 1px solid var(--burgundy);
+  color: var(--burgundy-light);
+  padding: 12px 48px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.hay-mas-btn:hover {
+  background: var(--burgundy-dim);
+  border-color: var(--burgundy-light);
+}
+
+/* ── SEGUNDA PANTALLA ── */
+#vol2-screen {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+#vol2-screen.visible { display: flex; }
+.vol2-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+.vol2-sub {
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--burgundy-light);
+}
+.vol2-back {
+  margin-top: 2rem;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.vol2-back:hover { color: var(--burgundy-light); }
+  
 </style>
 </head>
 <body>
@@ -641,10 +702,19 @@ Y ahora que las viste, me gusta imaginar que la historia sigue del otro lado. Qu
 Las fotos terminan acá.<br>
 Lo que te provocaron, espero verlo después.
     </p>
+    <button class="hay-mas-btn" onclick="showVol2()">Hay más...</button>
   </footer>
 
 </div>
 
+<!-- SEGUNDA PANTALLA -->
+<div id="vol2-screen">
+  <p class="vol2-sub">✦ vol. ii ✦</p>
+  <h2 class="vol2-title">Próximamente</h2>
+  <p class="vol2-sub" style="margin-top:1rem;">algo nuevo se viene</p>
+  <button class="vol2-back" onclick="hideVol2()">← volver</button>
+</div>
+  
 <!-- LIGHTBOX -->
 <div id="lightbox">
   <button class="lb-close" onclick="closeLightbox()">✕</button>
@@ -725,6 +795,19 @@ Lo que te provocaron, espero verlo después.
     if (e.key === 'ArrowRight') navLightbox(1);
     if (e.key === 'ArrowLeft') navLightbox(-1);
   });
+
+  function showVol2() {
+  document.getElementById('gallery').style.display = 'none';
+  document.getElementById('vol2-screen').classList.add('visible');
+  window.scrollTo(0, 0);
+  }
+
+  function hideVol2() {
+  document.getElementById('vol2-screen').classList.remove('visible');
+  document.getElementById('gallery').style.display = 'block';
+  window.scrollTo(0, 0);
+  }
+  
 </script>
 
 </body>
