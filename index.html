@@ -798,10 +798,15 @@ Lo que te provocaron, espero verlo después.
   });
 
   function showVol2() {
-  document.getElementById('gallery').style.display = 'none';
-  document.getElementById('vol2-screen').classList.add('visible');
-  window.scrollTo(0, 0);
+  const clave = prompt('Ingresá la contraseña para continuar:');
+  if (clave === 'tucontraseña') {
+    document.getElementById('gallery').style.display = 'none';
+    document.getElementById('vol2-screen').classList.add('visible');
+    window.scrollTo(0, 0);
+  } else {
+    alert('Contraseña incorrecta');
   }
+}
 
   function hideVol2() {
   document.getElementById('vol2-screen').classList.remove('visible');
